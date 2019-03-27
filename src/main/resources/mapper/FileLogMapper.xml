@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ccq.mapper.FileLogMapper" >
+  <resultMap id="BaseResultMap" type="com.ccq.pojo.FileLog" >
+    <id column="filename" property="filename" jdbcType="VARCHAR" />
+    <result column="firsttime" property="firsttime" jdbcType="VARCHAR" />
+    <result column="lasttime" property="lasttime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    filename, firsttime, lasttime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from chat_file_log
+    where filename = #{filename,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from chat_file_log order by lasttime desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from chat_file_log
+    where filename = #{filename,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ccq.pojo.FileLog" >
+    insert into chat_file_log (filename, firsttime, lasttime
+      )
+    values (#{filename,jdbcType=VARCHAR}, #{firsttime,jdbcType=VARCHAR}, #{lasttime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ccq.pojo.FileLog" >
+    insert into chat_file_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="filename != null" >
+        filename,
+      </if>
+      <if test="firsttime != null" >
+        firsttime,
+      </if>
+      <if test="lasttime != null" >
+        lasttime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="filename != null" >
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="firsttime != null" >
+        #{firsttime,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null" >
+        #{lasttime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ccq.pojo.FileLog" >
+    update chat_file_log
+    <set >
+      <if test="firsttime != null" >
+        firsttime = #{firsttime,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null" >
+        lasttime = #{lasttime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where filename = #{filename,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ccq.pojo.FileLog" >
+    update chat_file_log
+    set firsttime = #{firsttime,jdbcType=VARCHAR},
+      lasttime = #{lasttime,jdbcType=VARCHAR}
+    where filename = #{filename,jdbcType=VARCHAR}
+  </update>
+</mapper>
